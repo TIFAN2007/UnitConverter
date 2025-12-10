@@ -9,7 +9,6 @@ public class Lang {
     private static final Map<String, String> enMap = new HashMap<>();
 
     static {
-        // Русский словарь
         ruMap.put("title", "Универсальный Конвертер");
         ruMap.put("tab_len", "Длина");
         ruMap.put("tab_wgt", "Вес");
@@ -23,15 +22,14 @@ public class Lang {
         ruMap.put("lbl_from", "Из:");
         ruMap.put("lbl_to", "В:");
         ruMap.put("lbl_res", "Результат: ");
-        ruMap.put("btn_calc", "Рассчитать");
+        ruMap.put("btn_calc", "Записать в лог");
         ruMap.put("btn_copy", "Копировать");
-        ruMap.put("chk_log", "Вести лог");
+        ruMap.put("chk_log", "Включить лог");
         ruMap.put("chk_top", "Поверх окон");
         ruMap.put("chk_dark", "Темная тема");
-        ruMap.put("chk_save", "Сохранять настройки");
-        ruMap.put("btn_clear", "Очистить");
+        ruMap.put("btn_clear", "Очистить лог");
         ruMap.put("btn_open", "Открыть файл");
-        ruMap.put("btn_view", "Топ-10");
+        ruMap.put("btn_view", "Последние 10");
         ruMap.put("btn_edit", "Изменить курс");
         ruMap.put("menu_prog", "Программа");
         ruMap.put("menu_exit", "Выход");
@@ -39,7 +37,11 @@ public class Lang {
         ruMap.put("msg_hint", "Сколько единиц этой валюты дают за 1 USD?");
         ruMap.put("msg_upd", "Курс обновлен!");
 
-        // Английский словарь
+        ruMap.put("msg_log_cleared", "История очищена!");
+        ruMap.put("msg_log_empty", "История пуста.");
+        ruMap.put("msg_file_err", "Ошибка файла: ");
+        ruMap.put("msg_no_file", "Файл истории еще не создан.");
+
         enMap.put("title", "Universal Converter");
         enMap.put("tab_len", "Length");
         enMap.put("tab_wgt", "Weight");
@@ -53,13 +55,12 @@ public class Lang {
         enMap.put("lbl_from", "From:");
         enMap.put("lbl_to", "To:");
         enMap.put("lbl_res", "Result: ");
-        enMap.put("btn_calc", "Calculate");
+        enMap.put("btn_calc", "Save to Log");
         enMap.put("btn_copy", "Copy");
         enMap.put("chk_log", "Enable Log");
         enMap.put("chk_top", "Always on Top");
         enMap.put("chk_dark", "Dark Mode");
-        enMap.put("chk_save", "Save Settings");
-        enMap.put("btn_clear", "Clear");
+        enMap.put("btn_clear", "Clear Log");
         enMap.put("btn_open", "Open File");
         enMap.put("btn_view", "Last 10");
         enMap.put("btn_edit", "Edit Rate");
@@ -68,6 +69,11 @@ public class Lang {
         enMap.put("menu_lang", "Language");
         enMap.put("msg_hint", "How many units of this currency for 1 USD?");
         enMap.put("msg_upd", "Rate updated!");
+
+        enMap.put("msg_log_cleared", "History cleared!");
+        enMap.put("msg_log_empty", "History is empty.");
+        enMap.put("msg_file_err", "File error: ");
+        enMap.put("msg_no_file", "History file does not exist yet.");
     }
 
     public static String get(String key) {

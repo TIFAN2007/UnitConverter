@@ -19,7 +19,6 @@ public class SettingsManager {
         try (FileOutputStream out = new FileOutputStream(CONFIG_FILE)) {
             props.store(out, "Converter Settings");
         } catch (IOException ignored) {
-            // Ошибки сохранения настроек не критичны
         }
     }
 

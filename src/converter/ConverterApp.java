@@ -12,7 +12,6 @@ import java.util.Properties;
 
 public class ConverterApp extends JFrame {
     private boolean isDarkTheme = false;
-    private boolean saveSettings = true;
     private JTabbedPane tabbedPane;
     private int lastSelectedTab = 0;
 
@@ -24,7 +23,6 @@ public class ConverterApp extends JFrame {
     private void applySettings(Properties props) {
         Lang.isRu = "ru".equals(props.getProperty("lang", "ru"));
         isDarkTheme = Boolean.parseBoolean(props.getProperty("dark", "false"));
-        saveSettings = true;
         setAlwaysOnTop(Boolean.parseBoolean(props.getProperty("top", "false")));
         try {
             lastSelectedTab = Integer.parseInt(props.getProperty("tab", "0"));
@@ -37,9 +35,11 @@ public class ConverterApp extends JFrame {
         setupTheme();
 
         getContentPane().removeAll();
+        getContentPane().setBackground(null);
+
         setTitle(Lang.get("title"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 720);
+        setSize(600, 750);
         setLocationRelativeTo(null);
 
         java.net.URL iconURL = getClass().getResource("/icon.png");
@@ -61,9 +61,7 @@ public class ConverterApp extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (saveSettings) {
-                    SettingsManager.saveSettings(Lang.isRu, isDarkTheme, isAlwaysOnTop(), tabbedPane.getSelectedIndex());
-                }
+                SettingsManager.saveSettings(Lang.isRu, isDarkTheme, isAlwaysOnTop(), tabbedPane.getSelectedIndex());
             }
         });
 
@@ -100,11 +98,28 @@ public class ConverterApp extends JFrame {
             UIManager.put("Panel.background", new Color(40, 40, 40));
             UIManager.put("OptionPane.background", new Color(40, 40, 40));
             UIManager.put("OptionPane.messageForeground", Color.WHITE);
+
+            UIManager.put("TabbedPane.background", new Color(40, 40, 40));
+            UIManager.put("TabbedPane.foreground", Color.WHITE);
+            UIManager.put("TabbedPane.contentAreaColor", new Color(40, 40, 40));
+            UIManager.put("TabbedPane.selected", new Color(60, 60, 60));
         } else {
             UIManager.put("control", null);
-            UIManager.put("text", null);
+            UIManager.put("info", null);
             UIManager.put("nimbusBase", null);
+            UIManager.put("nimbusBlueGrey", null);
+            UIManager.put("nimbusAlertYellow", null);
+            UIManager.put("nimbusDisabledText", null);
+            UIManager.put("nimbusFocus", null);
+            UIManager.put("nimbusGreen", null);
+            UIManager.put("nimbusInfoBlue", null);
             UIManager.put("nimbusLightBackground", null);
+            UIManager.put("nimbusOrange", null);
+            UIManager.put("nimbusRed", null);
+            UIManager.put("nimbusSelectedText", null);
+            UIManager.put("nimbusSelectionBackground", null);
+            UIManager.put("text", null);
+
             UIManager.put("TextField.background", null);
             UIManager.put("TextField.foreground", null);
             UIManager.put("TextField.caretForeground", null);
@@ -116,6 +131,19 @@ public class ConverterApp extends JFrame {
             UIManager.put("Panel.background", null);
             UIManager.put("OptionPane.background", null);
             UIManager.put("OptionPane.messageForeground", null);
+
+            UIManager.put("TabbedPane.background", null);
+            UIManager.put("TabbedPane.foreground", null);
+            UIManager.put("TabbedPane.shadow", null);
+            UIManager.put("TabbedPane.darkShadow", null);
+            UIManager.put("TabbedPane.light", null);
+            UIManager.put("TabbedPane.highlight", null);
+            UIManager.put("TabbedPane.contentAreaColor", null);
+            UIManager.put("TabbedPane.selected", null);
+            UIManager.put("TabbedPane.tabAreaBackground", null);
+            UIManager.put("TabbedPane.borderHightlightColor", null);
+            UIManager.put("TabbedPane.contentBorderInsets", null);
+            UIManager.put("TabbedPane.tabsOverlapBorder", null);
         }
 
         try {
@@ -145,6 +173,9 @@ public class ConverterApp extends JFrame {
         if (isDarkTheme) {
             menuBar.setBackground(new Color(30, 30, 30));
             menuBar.setBorder(new EmptyBorder(0,0,0,0));
+        } else {
+            menuBar.setBackground(null);
+            menuBar.setBorder(null);
         }
 
         JMenu programMenu = createStyledMenu(Lang.get("menu_prog"));
@@ -188,7 +219,19 @@ public class ConverterApp extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
+        if (isDarkTheme) {
+            mainPanel.setBackground(new Color(40, 40, 40));
+        } else {
+            mainPanel.setBackground(null);
+        }
+
         JPanel formPanel = new JPanel(new GridBagLayout());
+        if (isDarkTheme) {
+            formPanel.setBackground(new Color(40, 40, 40));
+        } else {
+            formPanel.setBackground(null);
+        }
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -203,13 +246,13 @@ public class ConverterApp extends JFrame {
         resultLabel.setForeground(new Color(0, 102, 204));
         if (isDarkTheme) resultLabel.setForeground(new Color(100, 180, 255));
 
+        JButton calcAndLogBtn = new JButton(Lang.get("btn_calc"));
         JButton copyBtn = new JButton(Lang.get("btn_copy"));
         copyBtn.setMargin(new Insets(2, 5, 2, 5));
 
         JCheckBox saveCheck = new JCheckBox(Lang.get("chk_log"), true);
         JCheckBox alwaysTopCheck = new JCheckBox(Lang.get("chk_top"), isAlwaysOnTop());
         JCheckBox darkThemeCheck = new JCheckBox(Lang.get("chk_dark"), isDarkTheme);
-        JCheckBox saveSettingsCheck = new JCheckBox(Lang.get("chk_save"), saveSettings);
 
         if (isDarkTheme) {
             Color darkBg = new Color(40, 40, 40);
@@ -217,7 +260,6 @@ public class ConverterApp extends JFrame {
             saveCheck.setBackground(darkBg); saveCheck.setForeground(whiteFg);
             alwaysTopCheck.setBackground(darkBg); alwaysTopCheck.setForeground(whiteFg);
             darkThemeCheck.setBackground(darkBg); darkThemeCheck.setForeground(whiteFg);
-            saveSettingsCheck.setBackground(darkBg); saveSettingsCheck.setForeground(whiteFg);
         }
 
         Runnable calculate = () -> {
@@ -230,13 +272,9 @@ public class ConverterApp extends JFrame {
 
                 double res = converter.convert(val, f, t);
 
-                DecimalFormat df = new DecimalFormat("#.###");
+                DecimalFormat df = new DecimalFormat("#.##########");
                 String resStr = df.format(res);
                 resultLabel.setText(Lang.get("lbl_res") + resStr);
-
-                if (saveCheck.isSelected()) {
-                    HistoryLogger.saveHistory(val + " " + f + " -> " + resStr + " " + t);
-                }
             } catch (Exception ignored) {
             }
         };
@@ -250,6 +288,17 @@ public class ConverterApp extends JFrame {
         ActionListener recalcListener = e -> calculate.run();
         fromBox.addActionListener(recalcListener);
         toBox.addActionListener(recalcListener);
+
+        calcAndLogBtn.addActionListener(e -> {
+            calculate.run();
+            if (saveCheck.isSelected()) {
+                String currentResult = resultLabel.getText().replace(Lang.get("lbl_res"), "");
+                String text = inputField.getText();
+                if (!text.isEmpty()) {
+                    HistoryLogger.saveHistory(text + " " + fromBox.getSelectedItem() + " -> " + currentResult + " " + toBox.getSelectedItem(), this);
+                }
+            }
+        });
 
         swapButton.addActionListener(e -> {
             int fromIndex = fromBox.getSelectedIndex();
@@ -272,8 +321,6 @@ public class ConverterApp extends JFrame {
             initUI();
         });
 
-        saveSettingsCheck.addActionListener(e -> saveSettings = saveSettingsCheck.isSelected());
-
         gbc.gridx = 0; gbc.gridy = 0; formPanel.add(inputLabel, gbc);
         gbc.gridx = 1; formPanel.add(inputField, gbc);
         gbc.gridx = 0; gbc.gridy = 1; formPanel.add(new JLabel(Lang.get("lbl_from")), gbc);
@@ -284,28 +331,37 @@ public class ConverterApp extends JFrame {
 
         gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
         JPanel resPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        if (isDarkTheme) resPanel.setBackground(new Color(40, 40, 40));
+        else resPanel.setBackground(null);
         resPanel.add(resultLabel);
         resPanel.add(copyBtn);
         formPanel.add(resPanel, gbc);
 
+        gbc.gridx = 0; gbc.gridy = 4;
+        formPanel.add(calcAndLogBtn, gbc);
+
         JPanel settingsPanel = new JPanel(new GridLayout(2, 2));
+        if (isDarkTheme) settingsPanel.setBackground(new Color(40, 40, 40));
+        else settingsPanel.setBackground(null);
+
         settingsPanel.add(saveCheck);
         settingsPanel.add(alwaysTopCheck);
         settingsPanel.add(darkThemeCheck);
-        settingsPanel.add(saveSettingsCheck);
 
-        gbc.gridy = 4; formPanel.add(settingsPanel, gbc);
+        gbc.gridy = 5; formPanel.add(settingsPanel, gbc);
 
         JPanel historyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        if (isDarkTheme) historyPanel.setBackground(new Color(40, 40, 40));
+        else historyPanel.setBackground(null);
 
         JButton openLogBtn = new JButton(Lang.get("btn_open"));
-        openLogBtn.addActionListener(e -> HistoryLogger.openLogFile());
+        openLogBtn.addActionListener(e -> HistoryLogger.openLogFile(this));
 
         JButton viewLogBtn = new JButton(Lang.get("btn_view"));
         viewLogBtn.addActionListener(e -> JOptionPane.showMessageDialog(this, HistoryLogger.getLastTenLines(), "History", JOptionPane.INFORMATION_MESSAGE));
 
         JButton clearLogBtn = new JButton(Lang.get("btn_clear"));
-        clearLogBtn.addActionListener(e -> HistoryLogger.clearHistory());
+        clearLogBtn.addActionListener(e -> HistoryLogger.clearHistory(this));
 
         historyPanel.add(openLogBtn);
         historyPanel.add(viewLogBtn);
