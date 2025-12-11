@@ -1,5 +1,4 @@
 package converter;
-
 public class SpeedConverter extends BaseConverter {
     public SpeedConverter(boolean isRu) {
         if (isRu) {

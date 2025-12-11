@@ -1,5 +1,4 @@
 package converter;
-
 public class CurrencyConverter extends BaseConverter {
     public CurrencyConverter() {
         conversionRates.put("USD", 1.0);

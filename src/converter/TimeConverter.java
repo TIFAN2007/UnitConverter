@@ -1,5 +1,4 @@
 package converter;
-
 public class TimeConverter extends BaseConverter {
     public TimeConverter(boolean isRu) {
         if (isRu) {

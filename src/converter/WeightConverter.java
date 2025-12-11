@@ -1,5 +1,4 @@
 package converter;
-
 public class WeightConverter extends BaseConverter {
     public WeightConverter(boolean isRu) {
         if (isRu) {

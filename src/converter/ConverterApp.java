@@ -238,6 +238,20 @@ public class ConverterApp extends JFrame {
 
         JLabel inputLabel = new JLabel(Lang.get("lbl_val"));
         JTextField inputField = new JTextField(12);
+
+        inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    if ((c == '.' || c == ',') && !inputField.getText().contains(".") && !inputField.getText().contains(",")) {
+                        return;
+                    }
+                    e.consume();
+                }
+            }
+        });
+
         JComboBox<String> fromBox = new JComboBox<>(converter.getUnitNames());
         JComboBox<String> toBox = new JComboBox<>(converter.getUnitNames());
         JButton swapButton = new JButton("⇅");
@@ -265,7 +279,11 @@ public class ConverterApp extends JFrame {
         Runnable calculate = () -> {
             try {
                 String text = inputField.getText();
-                if (text.isEmpty() || text.equals("-")) return;
+                if (text.isEmpty() || text.equals("-")) {
+                    inputField.setForeground(isDarkTheme ? Color.WHITE : Color.BLACK);
+                    return;
+                }
+
                 double val = Double.parseDouble(text.replace(",", "."));
                 String f = (String) fromBox.getSelectedItem();
                 String t = (String) toBox.getSelectedItem();
@@ -275,7 +293,11 @@ public class ConverterApp extends JFrame {
                 DecimalFormat df = new DecimalFormat("#.##########");
                 String resStr = df.format(res);
                 resultLabel.setText(Lang.get("lbl_res") + resStr);
+
+                inputField.setForeground(isDarkTheme ? Color.WHITE : Color.BLACK);
+
             } catch (Exception ignored) {
+                inputField.setForeground(Color.RED);
             }
         };
 

@@ -1,5 +1,4 @@
 package converter;
-
 public class LengthConverter extends BaseConverter {
     public LengthConverter(boolean isRu) {
         if (isRu) {

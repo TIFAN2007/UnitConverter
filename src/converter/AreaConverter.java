@@ -1,5 +1,4 @@
 package converter;
-
 public class AreaConverter extends BaseConverter {
     public AreaConverter(boolean isRu) {
         if (isRu) {

@@ -1,5 +1,4 @@
 package converter;
-
 public class TemperatureConverter implements Converter {
     private final boolean isRu;
 
