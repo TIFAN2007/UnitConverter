@@ -17,7 +17,7 @@ public class HistoryLogger {
     public static void saveHistory(String text, Component parent) {
         File file = new File(FILE_NAME);
         try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8, true)) {
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
             writer.write("[" + timestamp + "] " + text + "\n");
             writer.flush();
         } catch (IOException e) {
