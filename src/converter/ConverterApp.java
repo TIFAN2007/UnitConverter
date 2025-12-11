@@ -281,6 +281,7 @@ public class ConverterApp extends JFrame {
                 String text = inputField.getText();
                 if (text.isEmpty() || text.equals("-")) {
                     inputField.setForeground(isDarkTheme ? Color.WHITE : Color.BLACK);
+                    resultLabel.setText(Lang.get("lbl_res") + "0.0");
                     return;
                 }
 

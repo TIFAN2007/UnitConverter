@@ -1,4 +1,5 @@
 package converter;
+
 public class DataConverter extends BaseConverter {
     public DataConverter(boolean isRu) {
         if (isRu) {
