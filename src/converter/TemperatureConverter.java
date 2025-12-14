@@ -1,10 +1,10 @@
 package converter;
 
 public class TemperatureConverter implements Converter {
-    private final boolean isRu;
+    private final int langIndex;
 
-    public TemperatureConverter(boolean isRu) {
-        this.isRu = isRu;
+    public TemperatureConverter(int langIndex) {
+        this.langIndex = langIndex;
     }
 
     @Override
@@ -29,7 +29,9 @@ public class TemperatureConverter implements Converter {
 
     @Override
     public String[] getUnitNames() {
-        if (isRu) return new String[]{"Цельсий", "Фаренгейт", "Кельвин"};
-        else return new String[]{"Celsius", "Fahrenheit", "Kelvin"};
+        return switch (langIndex) {
+            case Lang.RU -> new String[]{"Цельсий", "Фаренгейт", "Кельвин"};
+            default -> new String[]{"Celsius", "Fahrenheit", "Kelvin"};
+        };
     }
 }

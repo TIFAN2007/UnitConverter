@@ -7,14 +7,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class HistoryLogger {
-    private static final String FILE_NAME = System.getProperty("user.home") + File.separator + "converter_history.txt";
+    private static final String DIR_NAME = System.getProperty("user.home") + File.separator + ".UniversalConverter";
+    private static final String FILE_NAME = DIR_NAME + File.separator + "history.txt";
 
     public static void saveHistory(String text, Component parent) {
+        ensureDir();
         File file = new File(FILE_NAME);
         try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8, true)) {
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
@@ -26,6 +29,7 @@ public class HistoryLogger {
     }
 
     public static void clearHistory(Component parent) {
+        ensureDir();
         File file = new File(FILE_NAME);
         try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8, false)) {
             writer.write("");
@@ -69,7 +73,15 @@ public class HistoryLogger {
         }
     }
 
+    private static void ensureDir() {
+        try {
+            Files.createDirectories(Paths.get(DIR_NAME));
+        } catch (IOException e) {
+            System.err.println("Failed to create history directory: " + e.getMessage());
+        }
+    }
+
     private static void showError(String msg, Component parent) {
-        JOptionPane.showMessageDialog(parent, msg, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(parent, msg, Lang.get("err_title"), JOptionPane.ERROR_MESSAGE);
     }
 }

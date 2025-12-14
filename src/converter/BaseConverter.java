@@ -1,15 +1,16 @@
 package converter;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public abstract class BaseConverter implements Converter {
-    protected final Map<String, Double> conversionRates = new HashMap<>();
+    protected final Map<String, Double> conversionRates = new LinkedHashMap<>();
 
     @Override
     public double convert(double value, String fromUnit, String toUnit) {
         if (!conversionRates.containsKey(fromUnit) || !conversionRates.containsKey(toUnit)) {
-            throw new IllegalArgumentException("Unknown unit");
+            return 0.0;
         }
         double fromRate = conversionRates.get(fromUnit);
         double toRate = conversionRates.get(toUnit);
@@ -26,5 +27,13 @@ public abstract class BaseConverter implements Converter {
         if (conversionRates.containsKey(unitName)) {
             conversionRates.put(unitName, newRate);
         }
+    }
+
+    public double getRate(String unitName) {
+        return conversionRates.getOrDefault(unitName, 1.0);
+    }
+
+    public Map<String, Double> getAllRates() {
+        return conversionRates;
     }
 }
