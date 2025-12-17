@@ -14,12 +14,10 @@ public class SettingsManager {
     private static final String CONFIG_DIR = System.getProperty("user.home") + File.separator + ".UniversalConverter";
     private static final String CONFIG_FILE = CONFIG_DIR + File.separator + "settings.properties";
 
-    // Убрали аргумент boolean isDark
     public static void saveSettings(int lang, boolean isTop, int tabIndex, int precision, Map<String, Double> rates) {
         ensureDirExists();
         Properties props = new Properties();
         props.setProperty("lang", String.valueOf(lang));
-        // props.setProperty("dark", ...) удалено
         props.setProperty("top", String.valueOf(isTop));
         props.setProperty("tab", String.valueOf(tabIndex));
         props.setProperty("prec", String.valueOf(precision));
